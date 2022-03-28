@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.annotation.Nullable;
 public class DrawView extends View {
     private Paint p = new Paint();
     private int y=0, dY=5;
+    private float width, height;
+    private float GROUND = 1200;
     public DrawView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -20,22 +23,30 @@ public class DrawView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        float width = getWidth();
-        float height = getHeight();
+        width = getWidth();
+        height = getHeight();
         System.out.println("width & height" + width + " " + height);
 
         p.setStyle(Paint.Style.FILL);
 
+        // sky
         p.setColor(getResources().getColor(R.color.blue_light));
         canvas.drawRect(0,0,width, height, p);
 
-        p.setColor(getResources().getColor(R.color.green_mid));
-        canvas.drawRect(0,1200,width, height, p);
-
+        // sun
         p.setColor(getResources().getColor(R.color.yellow_mid));
         canvas.drawCircle(width, 0, 200, p);
 
         //sun rays
+        p.setAlpha(200);
+        drawRays(canvas, p, GROUND, 10);
+        p.setAlpha(255);
+
+
+
+        // ground
+        p.setColor(getResources().getColor(R.color.green_mid));
+        canvas.drawRect(0,GROUND,width, height, p);
 
 
         p.setColor(getResources().getColor(R.color.pink_light));
@@ -60,8 +71,6 @@ public class DrawView extends View {
         //eyes
 
 
-
-
 //        p.setColor(Color.LTGRAY);
 //        canvas.drawCircle(100,y, 20F, p);
 //        p.setColor(Color.BLUE);
@@ -70,6 +79,20 @@ public class DrawView extends View {
 //        y+=dY;
 //        y%=getHeight();
         invalidate();
+    }
+
+    public void drawRays(Canvas canvas, Paint p, float ymax, int numrays){
+        Path wallpath = new Path();
+        wallpath.reset(); // only needed when reusing this path for a new build
+
+        for(int i = 0; i < numrays; i++) {
+            wallpath.moveTo(width, 0); // used for first point
+            wallpath.lineTo(0, ymax/numrays*i+100);
+            wallpath.lineTo(0, ymax/numrays*i + 200);
+            wallpath.lineTo(width, 0);
+
+            canvas.drawPath(wallpath, p);
+        }
     }
 
 
