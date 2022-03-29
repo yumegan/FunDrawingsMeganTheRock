@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 public class DrawView extends View {
     private Paint p = new Paint();
     private int y=0, dY=5;
+    private int move=0, dMove=5;
     private float width, height;
     private float GROUND = 1200;
     public DrawView(Context context, @Nullable AttributeSet attrs) {
@@ -85,14 +86,30 @@ public class DrawView extends View {
         Path wallpath = new Path();
         wallpath.reset(); // only needed when reusing this path for a new build
 
-        for(int i = 0; i < numrays; i++) {
-            wallpath.moveTo(width, 0); // used for first point
-            wallpath.lineTo(0, ymax/numrays*i+100);
-            wallpath.lineTo(0, ymax/numrays*i + 200);
+        wallpath.moveTo(width, 0); // used for first point
+
+        for(int i = -1; i < numrays; i++) {
+            //wallpath.moveTo(width, 0); // used for first point
+            wallpath.lineTo(0, ymax/numrays*i+150+move);
+            wallpath.lineTo(0, ymax/numrays*i+200+move);
             wallpath.lineTo(width, 0);
 
-            canvas.drawPath(wallpath, p);
+            //canvas.drawPath(wallpath, p);
         }
+
+        for(int i = 0; i < numrays; i++) {
+            //wallpath.moveTo(width, 0); // used for first point
+            wallpath.lineTo(width/numrays*i+150+move, GROUND);
+            wallpath.lineTo(width/numrays*i+200+move, GROUND);
+            wallpath.lineTo(width, 0);
+
+            //canvas.drawPath(wallpath, p);
+        }
+
+        move+=dMove;
+
+
+        canvas.drawPath(wallpath, p);
     }
 
 
