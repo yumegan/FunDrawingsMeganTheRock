@@ -123,10 +123,10 @@ public class DrawView extends View {
     }
 
 
-    public int getdY(){
+    public float getdY(){
         return dY;
     }
-    public void setdY(int dY){
+    public void setdY(float dY){
         this.dY = dY;
     }
 }
