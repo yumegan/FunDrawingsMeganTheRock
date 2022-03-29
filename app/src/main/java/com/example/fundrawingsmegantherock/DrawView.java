@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 public class DrawView extends View {
     private Paint p = new Paint();
-    private int y=0, dY=5;
+    private float y=0, dY=5;
     private int move=0, dMove=5;
     private float width, height;
     private float GROUND = 1200;
@@ -26,6 +26,7 @@ public class DrawView extends View {
         super.onDraw(canvas);
         width = getWidth();
         height = getHeight();
+        y = height/2;
         System.out.println("width & height" + width + " " + height);
 
         p.setStyle(Paint.Style.FILL);
@@ -43,15 +44,15 @@ public class DrawView extends View {
         drawRays(canvas, p, GROUND, 10);
         p.setAlpha(255);
 
-
-
         // ground
         p.setColor(getResources().getColor(R.color.green_mid));
         canvas.drawRect(0,GROUND,width, height, p);
 
-
+        // PIG BOD
         p.setColor(getResources().getColor(R.color.pink_light));
-        canvas.drawCircle(width/2, height/2, 400, p);
+        canvas.drawCircle(width/2, y/2, 400, p);
+        y+=dY;
+        y%=50;
 
         p.setStyle(Paint.Style.STROKE);
         p.setColor(getResources().getColor(R.color.pink_2));
@@ -68,8 +69,17 @@ public class DrawView extends View {
         canvas.drawLine(900, 1100, 1000, 1080, p);
 
         //nose holes
+        p.setStyle(Paint.Style.FILL);
+        canvas.drawOval(width/2-80, height/2+135, width/2-40, height/2+210, p);
+        canvas.drawOval(width/2+40, height/2+135, width/2+80, height/2+210, p);
 
         //eyes
+        p.setStyle(Paint.Style.STROKE);
+        p.setColor(Color.DKGRAY);
+        RectF circ = new RectF(width/2-80, height/2, width/2-40, height/2+40);
+        canvas.drawArc(circ, 20, 160, false, p);
+        circ = new RectF(width/2+40, height/2, width/2+80, height/2+40);
+        canvas.drawArc(circ, 20, 160, false, p);
 
 
 //        p.setColor(Color.LTGRAY);
@@ -88,7 +98,7 @@ public class DrawView extends View {
 
         wallpath.moveTo(width, 0); // used for first point
 
-        for(int i = -1; i < numrays; i++) {
+        for(int i = -2; i < numrays; i++) {
             //wallpath.moveTo(width, 0); // used for first point
             wallpath.lineTo(0, ymax/numrays*i+150+move);
             wallpath.lineTo(0, ymax/numrays*i+200+move);
@@ -107,7 +117,7 @@ public class DrawView extends View {
         }
 
         move+=dMove;
-
+        move%=50;
 
         canvas.drawPath(wallpath, p);
     }
