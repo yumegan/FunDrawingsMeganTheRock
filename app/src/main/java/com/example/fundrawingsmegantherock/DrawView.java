@@ -50,7 +50,7 @@ public class DrawView extends View {
 
         // PIG BOD
         p.setColor(getResources().getColor(R.color.pink_light));
-        canvas.drawCircle(width/2, y/2, 400, p);
+        canvas.drawCircle(width/2, height/2, 400, p);
         y+=dY;
         y%=50;
 
