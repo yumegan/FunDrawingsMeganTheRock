@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 public class DrawView extends View {
     private Paint p = new Paint();
     private float y=0, dY=5;
-    private int move=0, dMove=5;
+    private int move=0, dMove=2;
     private float width, height;
     private float GROUND = 1200;
     public DrawView(Context context, @Nullable AttributeSet attrs) {
@@ -27,7 +27,7 @@ public class DrawView extends View {
         width = getWidth();
         height = getHeight();
         y = height/2;
-        System.out.println("width & height" + width + " " + height);
+        //System.out.println("width & height" + width + " " + height);
 
         p.setStyle(Paint.Style.FILL);
 
@@ -117,7 +117,7 @@ public class DrawView extends View {
         }
 
         move+=dMove;
-        move%=50;
+        move%=110;
 
         canvas.drawPath(wallpath, p);
     }
